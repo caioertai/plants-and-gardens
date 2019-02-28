@@ -1,32 +1,23 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# frozen_string_literal: true
 
+garden_names = ['Valhala', 'Paradise', "Grandma's Garden", 'Whatever']
 
-
-names = ["Valhala", "Paradise", "Grandma's Garden", "Whatever"]
-
-counter = 0
-
-
-
-3.times do
-	counter +=1
-	garden = Garden.new(name: names.sample, image_url: "https://source.unsplash.com/1200x900/?garden")
-	garden.save
-	puts "#{counter} gardens created"
+garden_names.each_with_index do |garden_name, index|
+  Garden.create!(
+    name: garden_name,
+    image_url: "https://source.unsplash.com/1200x900/?#{garden_name}"
+  )
+  puts "#{index + 1} gardens created"
 end
 
+plant_names = %w[coconut water green plant]
 
-array = %W(coconut water green plant)
-
-
-3.times do 
-	plant = Plant.new(name:array.sample, image_url: "https://source.unsplash.com/1200x900/?plant")
-	plant.garden = Garden.all.sample
-	plant.save
+Garden.all.each do |garden|
+  plant_names.each do |plant_name|
+    Plant.create!(
+      name: plant_name,
+      image_url: 'https://source.unsplash.com/1200x900/?plant',
+      garden: garden
+    )
+  end
 end
